@@ -1,0 +1,7 @@
+
+
+docker-compose up --build для запуска сервера
+тесты можно запускать внутри контейнера 
+docker exec -it airflow sh
+pytest test.py
+При запуске теста есть 1 минутное ожидание от апи /search

@@ -1,0 +1,48 @@
+version: "3"
+services:
+  airflow:
+    container_name: airflow
+    build: airflow/
+    image: airflow
+    restart: always
+    ports:
+      - 9000:9000
+    depends_on:
+      - redis
+    networks:
+      - my_network
+
+  provider-a:
+    container_name: provider-a
+    build: provider-a/
+    image: provider-a
+    restart: always
+    ports:
+      - 9001:9001
+    networks:
+      - my_network
+  provider-b:
+    container_name: provider-b
+    build: provider-b/
+    image: provider-b
+    restart: always
+    ports:
+      - 9002:9002
+    networks:
+      - my_network
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
+
